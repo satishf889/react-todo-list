@@ -42,7 +42,17 @@ export default class App extends Component {
   };
 
   handleEdit = (id) => {
-    console.log(`handle edit ${id}`);
+    if (this.state.editItem === true) {
+      return;
+    }
+    const filterItems = this.state.items.filter((item) => item.id !== id);
+    const selectedItem = this.state.items.find((item) => item.id === id);
+    this.setState({
+      items: filterItems,
+      item: selectedItem.title,
+      id: id,
+      editItem: true,
+    });
   };
 
   handleDelete = (id) => {
@@ -69,6 +79,7 @@ export default class App extends Component {
               clearList={this.clearList}
               handleDelete={this.handleDelete}
               handleEdit={this.handleEdit}
+              editItem={this.state.editItem}
             />
           </div>
         </div>
