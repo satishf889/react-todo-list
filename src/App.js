@@ -7,25 +7,38 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default class App extends Component {
   state = {
-    items: [
-      { id: 1, title: "wake up" },
-      { id: 2, title: "Make breakfast" },
-    ],
+    items: [],
     id: uuidv4(),
     item: "",
     editItem: false,
   };
 
   handleChange = (e) => {
-    console.log("handle change");
+    this.setState({
+      item: e.target.value,
+    });
   };
 
   handleSubmit = (e) => {
-    console.log("handle submit");
+    e.preventDefault();
+    // console.log("In handlesubmit");
+    const newItem = {
+      id: this.state.id,
+      title: this.state.item,
+    };
+    const updatedItems = [...this.state.items, newItem];
+    this.setState({
+      items: updatedItems,
+      item: "",
+      id: uuidv4(),
+      editItem: false,
+    });
   };
 
   clearList = () => {
-    console.log("Clear list ");
+    this.setState({
+      items: [],
+    });
   };
 
   handleEdit = (id) => {
@@ -33,7 +46,10 @@ export default class App extends Component {
   };
 
   handleDelete = (id) => {
-    console.log(` handle delete ${id}`);
+    const filterItems = this.state.items.filter((item) => item.id !== id);
+    this.setState({
+      items: filterItems,
+    });
   };
 
   render() {
