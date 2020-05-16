@@ -7,7 +7,9 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default class App extends Component {
   state = {
-    items: [],
+    items: localStorage.getItem("react-todo-list")
+      ? JSON.parse(localStorage.getItem("react-todo-list"))
+      : [],
     id: uuidv4(),
     item: "",
     editItem: false,
@@ -27,12 +29,20 @@ export default class App extends Component {
       title: this.state.item,
     };
     const updatedItems = [...this.state.items, newItem];
-    this.setState({
-      items: updatedItems,
-      item: "",
-      id: uuidv4(),
-      editItem: false,
-    });
+    this.setState(
+      {
+        items: updatedItems,
+        item: "",
+        id: uuidv4(),
+        editItem: false,
+      },
+      () => {
+        localStorage.setItem(
+          "react-todo-list",
+          JSON.stringify(this.state.items)
+        );
+      }
+    );
   };
 
   clearList = () => {
